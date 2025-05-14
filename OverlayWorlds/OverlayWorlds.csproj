@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyTitle>MonkeyLoader.ModTemplate</AssemblyTitle>
-    <RootNamespace>MonkeyLoader.ModTemplate</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>MonkeyLoader.ModTemplate.Resonite</PackageId>
-    <Title>MonkeyLoader Resonite Mod Template</Title>
-    <Authors>Banane9</Authors>
-    <Version>0.4.0</Version>
-    <Description>This is a template for a Resonite MonkeyLoader mod.</Description>
+    <PackageId>OverlayWorlds</PackageId>
+    <Title>Overlay Worlds</Title>
+    <Authors>jvyden</Authors>
+    <Version>1.0.0</Version>
+    <Description>A MonkeyLoader mod for Resonite that allows you to create overlay worlds.</Description>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/ResoniteModdingGroup/MonkeyLoader.ModTemplate</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/jvyden/OverlayWorlds</PackageProjectUrl>
     <PackageTags>mod; mods; monkeyloader; resonite</PackageTags>
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);AddExtraFilesToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
@@ -41,16 +42,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonkeyLoader" Version="0.19.0-beta" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.6.0-beta" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.16.6-beta" GeneratePathProperty="true" />
-    <PackageReference Include="PolySharp" Version="1.14.1">
+    <PackageReference Include="MonkeyLoader" Version="0.24.0-beta" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.7.0-beta" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.21.2-beta" GeneratePathProperty="true" />
+    <PackageReference Include="PolySharp" Version="1.15.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Resonite.Elements.Core" Version="1.0.2" />
-    <PackageReference Include="Resonite.FrooxEngine" Version="2024.6.11.74" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4">
+    <PackageReference Include="Resonite.FrooxEngine" Version="2025.5.13.1407" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -64,6 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MonkeyLoader.ModTemplate.PrePatcher\MonkeyLoader.ModTemplate.PrePatcher.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\OverlayWorlds.PrePatcher\OverlayWorlds.PrePatcher.csproj" PrivateAssets="All" />
   </ItemGroup>
 </Project>
