@@ -3,13 +3,8 @@ using HarmonyLib;
 using MonkeyLoader.Patching;
 using MonkeyLoader.Resonite;
 using MonkeyLoader.Resonite.Features.FrooxEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MonkeyLoader.ModTemplate
+namespace OverlayWorlds
 {
     [HarmonyPatchCategory(nameof(BasicPatcher))]
     [HarmonyPatch(typeof(ProtoFluxTool), nameof(ProtoFluxTool.OnAttach))]

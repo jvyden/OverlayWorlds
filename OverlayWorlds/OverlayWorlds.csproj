@@ -1,8 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <AssemblyTitle>MonkeyLoader.ModTemplate</AssemblyTitle>
-    <RootNamespace>MonkeyLoader.ModTemplate</RootNamespace>
-  </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -41,29 +37,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonkeyLoader" Version="0.19.0-beta" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.6.0-beta" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.16.6-beta" GeneratePathProperty="true" />
-    <PackageReference Include="PolySharp" Version="1.14.1">
+    <PackageReference Include="MonkeyLoader" Version="0.24.15-beta" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.22.1-beta" GeneratePathProperty="true" />
+    <PackageReference Include="PolySharp" Version="1.15.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Resonite.Elements.Core" Version="1.0.2" />
-    <PackageReference Include="Resonite.FrooxEngine" Version="2024.6.11.74" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Resonite.Elements.Core" Version="1.4.3" />
+    <PackageReference Include="Resonite.Elements.Quantity" Version="1.2.3" />
+    <PackageReference Include="Resonite.FrooxEngine" Version="2025.5.14.23" />
   </ItemGroup>
   
   <ItemGroup>
     <!-- Reference the pre-patcher assembly from the Game Pack because PackageReference is stupid -->
     <Reference Include="MonkeyLoader.Resonite.Data">
-      <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)\lib\net462\pre-patchers\MonkeyLoader.Resonite.Data.dll</HintPath>
+      <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)\lib\netstandard2.0\pre-patchers\MonkeyLoader.Resonite.Data.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MonkeyLoader.ModTemplate.PrePatcher\MonkeyLoader.ModTemplate.PrePatcher.csproj" PrivateAssets="All" />
   </ItemGroup>
 </Project>
