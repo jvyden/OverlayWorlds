@@ -46,6 +46,7 @@
     <PackageReference Include="Resonite.Elements.Core" Version="1.4.3" />
     <PackageReference Include="Resonite.Elements.Quantity" Version="1.2.3" />
     <PackageReference Include="Resonite.FrooxEngine" Version="2025.5.14.23" />
+    <PackageReference Include="Resonite.SkyFrost.Base.Models" Version="2.1.5" />
   </ItemGroup>
   
   <ItemGroup>
