@@ -16,7 +16,7 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NUGET_AUTH_TOKEN: ${{ secrets.NUGET_READ_TOKEN }}
   NuGetDirectory: ${{ github.workspace}}/nuget
 
 defaults:
@@ -72,7 +72,7 @@ jobs:
 
       - name: Add NuGet sources
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+          dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ github.repository_owner }} -p ${{ secrets.NUGET_READ_TOKEN }} --store-password-in-clear-text
           dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
       
       # Publish all NuGet packages to the GitHub feed
@@ -81,5 +81,5 @@ jobs:
       - name: Publish NuGet Packages
         run: |
           foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.GITHUB_TOKEN }}" --source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json --skip-duplicate
+              dotnet nuget push $file --api-key "${{ secrets.NUGET_READ_TOKEN }}" --source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json --skip-duplicate
           }
