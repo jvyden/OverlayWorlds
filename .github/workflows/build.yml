@@ -47,7 +47,7 @@ jobs:
     
     - name: Add NuGet sources
       run: |
-        dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${GITHUB_REPOSITORY_OWNER} -p ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
         dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
     
     - name: Restore NuGet Package Cache
@@ -103,7 +103,7 @@ jobs:
 
     - name: Add NuGet sources
       run: |
-        dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${GITHUB_REPOSITORY_OWNER} -p ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
         dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
 
     - name: Restore NuGet Package Cache

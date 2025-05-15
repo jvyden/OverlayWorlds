@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="196b92bb-a4aa-4a48-a1f4-c87e2044f326" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/publish.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1747247519868</updated>
       <workItem from="1747247521116" duration="18179000" />
-      <workItem from="1747329582944" duration="8712000" />
+      <workItem from="1747329582944" duration="8864000" />
     </task>
     <task id="LOCAL-00001" summary="Get the mod compiling :fire:">
       <option name="closed" value="true" />
@@ -146,7 +145,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747338841168</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Try to fix CI">
+      <option name="closed" value="true" />
+      <created>1747339512387</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747339512387</updated>
+    </task>
+    <task id="LOCAL-00009" summary="how dare you?">
+      <option name="closed" value="true" />
+      <created>1747339576303</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1747339576303</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,7 +189,9 @@
     <MESSAGE value="Fix incorrect package details" />
     <MESSAGE value="Start worlds from a button press" />
     <MESSAGE value="Rename from OverlayWorlds to PocketDimensions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename from OverlayWorlds to PocketDimensions" />
+    <MESSAGE value="Try to fix CI" />
+    <MESSAGE value="how dare you?" />
+    <option name="LAST_COMMIT_MESSAGE" value="how dare you?" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
