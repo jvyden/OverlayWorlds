@@ -1,16 +1,15 @@
-﻿using Elements.Core;
-using FrooxEngine;
+﻿using FrooxEngine;
 using FrooxEngine.ProtoFlux;
 using HarmonyLib;
 using MonkeyLoader.Patching;
 using MonkeyLoader.Resonite;
 using MonkeyLoader.Resonite.Features.FrooxEngine;
-using SkyFrost.Base;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace OverlayWorlds;
 
 [HarmonyPatchCategory(nameof(BasicPatcher))]
-[HarmonyPatch(typeof(ProtoFluxTool), nameof(ProtoFluxTool.OnAttach))]
 internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
 {
     // The options for these should be provided by your game's game pack.
@@ -19,31 +18,40 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
         yield return new FeaturePatch<ProtofluxTool>(PatchCompatibility.HookOnly);
     }
 
-    private static void SetupWorld(World w)
+    [HarmonyPatch(typeof(ProtoFluxTool), nameof(ProtoFluxTool.OnAttach))]
+    [HarmonyPostfix]
+    private static void ProtoFluxToolOnAttachPostfix()
     {
-        Slot ground = w.AddSlot("Ground");
-        ground.AttachCylinder<PBS_Metallic>(15f, 0.2f).Sides.Value = 128;
-        ground.GetComponent<CylinderCollider>().SetCharacterCollider();
-        ground.GlobalPosition = float3.Down * 0.1f;
+        // TODO: replace with dynamic impulse-based starting from userspace
+        Logger.Info(() => "Postfix for ProtoFluxTool.OnAttach()!");
+        Task.Run(DimensionManager.StartDimensionAsync);
     }
 
-    private static void Postfix()
+    private static readonly MethodInfo _isUserspace = AccessTools.Method(typeof(WorldExtensions), nameof(WorldExtensions.IsUserspace));
+    private static readonly MethodInfo _isDimension = AccessTools.Method(typeof(DimensionManager), nameof(DimensionManager.IsDimension));
+    private static readonly MethodInfo _getWorld = AccessTools.Method(typeof(Worker), "get_World");
+
+    [HarmonyPatch(typeof(ScreenController), nameof(ScreenController.OnAttach))]
+    [HarmonyTranspiler, HarmonyDebug]
+    private static IEnumerable<CodeInstruction> ScreenControllerOnAttachTranspiler(IEnumerable<CodeInstruction> instructions)
     {
-        Logger.Info(() => "Postfix for ProtoFluxTool.OnAttach()!");
-        Task.Run(async () =>
+        List<CodeInstruction> code = instructions.ToList();
+
+        for (int i = 0; i < code.Count; i++)
         {
-            World world = await Userspace.OpenWorld(new WorldStartSettings
+            CodeInstruction instruction = code[i];
+
+            if (instruction.Calls(_isUserspace))
             {
-                InitWorld = SetupWorld,
-                AutoFocus = false,
-                HideFromListing = true,
-                GetExisting = false,
-                DefaultAccessLevel = SessionAccessLevel.Private,
-                FetchedWorldName = "Pocket Dimension",
-                CreateLoadIndicator = false,
-            });
-            world.Focus = World.WorldFocus.Overlay;
-            world.Name = "Pocket Dimension";
-        });
+                yield return instruction;
+                yield return new CodeInstruction(OpCodes.Ldarg_0);
+                yield return new CodeInstruction(OpCodes.Call, _getWorld);
+                yield return new CodeInstruction(OpCodes.Call, _isDimension);
+                yield return new CodeInstruction(OpCodes.Or);
+                continue;
+            }
+            
+            yield return instruction;
+        }
     }
 }
