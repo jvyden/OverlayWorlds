@@ -68,7 +68,8 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
 
         const string Prefix = "PocketDimension.";
 
-        if (!comment.Text.Value.StartsWith(Prefix))
+        // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
+        if (!(comment?.Text?.Value?.StartsWith(Prefix) ?? false))
             return;
 
         string method = comment.Text.Value[Prefix.Length..];
