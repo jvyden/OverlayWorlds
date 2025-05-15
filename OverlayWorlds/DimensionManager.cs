@@ -1,6 +1,7 @@
 using Elements.Core;
 using FrooxEngine;
 using FrooxEngine.CommonAvatar;
+using FrooxEngine.UIX;
 using SkyFrost.Base;
 
 namespace OverlayWorlds;
@@ -11,7 +12,6 @@ namespace OverlayWorlds;
 public static class DimensionManager
 {
     private static World? _world;
-    private static Slot? _slot;
     
     private static void SetupWorld(World world)
     {
@@ -23,24 +23,32 @@ public static class DimensionManager
         CommonAvatarBuilder builder = world.AddSlot("Avatar Builder").AttachComponent<CommonAvatarBuilder>();
         builder.SetupServerVoice.Value = false;
         builder.SetupClientVoice.Value = false;
-        builder.AllowLocomotion.Value = true;
         builder.FillEmptySlots.Value = false;
-        builder.SetupLocomotion.Value = false;
         
-        Slot slot = world.AddSlot("UserRoot");
+        builder.SetupLocomotion.Value = true;
+        builder.AllowLocomotion.Value = false;
+        
+        Slot slot = world.AddSlot("UserRoot", false);
         UserRoot userRoot = slot.AttachComponent<UserRoot>();
         world.LocalUser.Root = userRoot;
         
-        builder.BuildDevices(world.LocalUser, userRoot, slot, out Slot _, out List<InteractionHandler> _);
+        builder.BuildDevices(world.LocalUser, userRoot, slot, out Slot _, out List<InteractionHandler> interactions);
+        foreach (InteractionHandler handler in interactions)
+        {
+            UserspacePointer pointer = world.AddSlot($"{handler.Side} {nameof(UserspacePointer)}", false).AttachComponent<UserspacePointer>();
+            handler.Equip(pointer, true);
+            pointer.Slot.SetIdentityTransform();
+            handler.EquippingEnabled.Value = false;
+            handler.UserScalingEnabled.Value = false;
+            handler.VisualEnabled.Value = false;
+        }
 
         AvatarManager manager = slot.AttachComponent<AvatarManager>();
         manager.AutoAddNameBadge.Value = false;
         manager.AutoAddIconBadge.Value = false;
         manager.AutoAddLiveIndicator.Value = false;
-        manager.EmptySlotHandler._target = builder;
+        manager.EmptySlotHandler.Target = null;
         manager.FillEmptySlots();
-        
-        _slot = world.AddSlot("__DIMENSION", false);
     }
 
     /// <summary>
@@ -104,5 +112,23 @@ public static class DimensionManager
         }
 
         await Userspace.ExitWorld(_world);
+    }
+
+    public static bool RegisterButton(Button button, string method)
+    {
+        switch (method)
+        {
+            case "Start":
+                button.LocalPressed += (_, _) => Task.Run(StartDimensionAsync);
+                break;
+            case "Stop":
+                button.LocalPressed += (_, _) => Task.Run(StopDimensionAsync);
+                break;
+            default:
+                UniLog.Warning("Unknown dimension button method " + method);
+                return false;
+        }
+
+        return true;
     }
 }
