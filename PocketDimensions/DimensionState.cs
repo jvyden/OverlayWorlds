@@ -1,4 +1,4 @@
-namespace OverlayWorlds;
+namespace PocketDimensions;
 
 /// <summary>
 /// Describes the state of the pocket dimension.

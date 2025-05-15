@@ -4,7 +4,7 @@ using FrooxEngine.CommonAvatar;
 using FrooxEngine.UIX;
 using SkyFrost.Base;
 
-namespace OverlayWorlds;
+namespace PocketDimensions;
 
 /// <summary>
 /// Management utility for a pocket dimension.

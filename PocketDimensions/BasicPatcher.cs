@@ -6,7 +6,7 @@ using MonkeyLoader.Resonite;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace OverlayWorlds;
+namespace PocketDimensions;
 
 [HarmonyPatchCategory(nameof(BasicPatcher))]
 internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
