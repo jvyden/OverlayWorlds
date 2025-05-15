@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="196b92bb-a4aa-4a48-a1f4-c87e2044f326" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/publish.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;jvyden&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:jvyden/OverlayWorlds.git&quot;,
+    &quot;accountId&quot;: &quot;cd5de5e2-4c49-4144-8f57-83e9a0a91578&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18370c0bfe344ced85c01cfd9dc05a8b114e00/8a/864c69c9/float3.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/01/605e5cc5/WorldStartSettings.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/25/301fb71a/InputBindingManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/2d/b421e5b1/ScreenController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/33/0b216044/IEmptyAvatarSlotHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/48/1bce7581/Userspace.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/52/b1de2b39/HeadSimulator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/83/691280ea/InteractionHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/a8/188513d0/IDynamicImpulseHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/b5/c7d0b605/ProtoFluxTool.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/c1/8ab53f7b/World.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/c4/6d50d00b/ProtoFluxHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/c9/da4a40ea/CommonAvatarBuilder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/df/828a23bf/WorldPresets.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/e2/95acfa23/UserspacePointer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/74678bd7b09641309517be54ca9169ee4b8200/f9/0506a273/AvatarManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/95748ee406d24d5ea7ae17094dc7fec322000/06/6ba027ce/DynamicImpulseReceiver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/95748ee406d24d5ea7ae17094dc7fec322000/9c/ddf6ce24/IDynamicImpulseTarget.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/63899842171e643ae29ceca13a9c3dede585805a81c08712e4d814436c74/FeaturePatch.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://X:/OverlayWorlds/OverlayWorlds/BasicPatcher.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://X:/OverlayWorlds/OverlayWorlds/DimensionManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://X:/OverlayWorlds/OverlayWorlds/DimensionManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://X:/OverlayWorlds/OverlayWorlds/DimensionManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PocketDimensions/BasicPatcher.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2x69BIzYwAurClIxbO5LsEzuFqC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
+  }
+}</component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="196b92bb-a4aa-4a48-a1f4-c87e2044f326" name="Changes" comment="" />
+      <created>1747247519868</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747247519868</updated>
+      <workItem from="1747247521116" duration="18179000" />
+      <workItem from="1747329582944" duration="8712000" />
+    </task>
+    <task id="LOCAL-00001" summary="Get the mod compiling :fire:">
+      <option name="closed" value="true" />
+      <created>1747250527663</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1747250527663</updated>
+    </task>
+    <task id="LOCAL-00002" summary="i mean, it KINDA works">
+      <option name="closed" value="true" />
+      <created>1747252701330</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1747252701330</updated>
+    </task>
+    <task id="LOCAL-00003" summary="it works!">
+      <option name="closed" value="true" />
+      <created>1747253539886</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747253539886</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Dimension manager, patch to always use UserspaceTargettingController for dimension">
+      <option name="closed" value="true" />
+      <created>1747267629807</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747267629807</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fix incorrect package details">
+      <option name="closed" value="true" />
+      <created>1747338623840</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747338623840</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Start worlds from a button press">
+      <option name="closed" value="true" />
+      <created>1747338660115</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1747338660115</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Rename from OverlayWorlds to PocketDimensions">
+      <option name="closed" value="true" />
+      <created>1747338841168</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1747338841168</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Get the mod compiling :fire:" />
+    <MESSAGE value="i mean, it KINDA works" />
+    <MESSAGE value="it works!" />
+    <MESSAGE value="Dimension manager, patch to always use UserspaceTargettingController for dimension" />
+    <MESSAGE value="Fix incorrect package details" />
+    <MESSAGE value="Start worlds from a button press" />
+    <MESSAGE value="Rename from OverlayWorlds to PocketDimensions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename from OverlayWorlds to PocketDimensions" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

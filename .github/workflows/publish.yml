@@ -68,11 +68,12 @@ jobs:
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
-          source-url: https://nuget.pkg.github.com/ResoniteModdingGroup/index.json
+          dotnet-version: 9.x
 
-      - name: Add MonkeyLoader NuGet Source
-        run: dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
+      - name: Add NuGet sources
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ env.GITHUB_REPOSITORY_OWNER }} -p ${{ secrets.GITHUB_TOKEN }}
+          dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
       
       # Publish all NuGet packages to the GitHub feed
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
