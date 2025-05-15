@@ -72,7 +72,7 @@ jobs:
 
       - name: Add NuGet sources
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ env.GITHUB_REPOSITORY_OWNER }} -p ${{ secrets.GITHUB_TOKEN }}
+          dotnet nuget add source https://nuget.pkg.github.com/ResoniteModdingGroup/index.json -u ${{ vars.GITHUB_REPOSITORY_OWNER }} -p ${{ secrets.GITHUB_TOKEN }}
           dotnet nuget add source https://pkg.munally.com/MonkeyModdingTroop/index.json
       
       # Publish all NuGet packages to the GitHub feed
