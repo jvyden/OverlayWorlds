@@ -15,11 +15,6 @@ public static class DimensionManager
     
     private static void SetupWorld(World world)
     {
-        // Slot ground = world.AddSlot("Ground");
-        // ground.AttachCylinder<PBS_Metallic>(15f, 0.2f).Sides.Value = 128;
-        // ground.GetComponent<CylinderCollider>().SetCharacterCollider();
-        // ground.GlobalPosition = float3.Down * 0.1f;
-        
         CommonAvatarBuilder builder = world.AddSlot("Avatar Builder").AttachComponent<CommonAvatarBuilder>();
         builder.SetupServerVoice.Value = false;
         builder.SetupClientVoice.Value = false;

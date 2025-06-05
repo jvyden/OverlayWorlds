@@ -20,9 +20,12 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
     private static readonly MethodInfo _isDimension = AccessTools.Method(typeof(DimensionManager), nameof(DimensionManager.IsDimension));
     private static readonly MethodInfo _getWorld = AccessTools.Method(typeof(Worker), "get_World");
 
+    /// <summary>
+    /// When a method is checking if a world is userspace, also check if the world is a dimension
+    /// </summary>
     [HarmonyPatch(typeof(ScreenController), nameof(ScreenController.OnAttach))]
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ScreenControllerOnAttachTranspiler(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> AlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         List<CodeInstruction> code = instructions.ToList();
 
@@ -32,11 +35,73 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
 
             if (instruction.Calls(_isUserspace))
             {
-                yield return instruction;
-                yield return new CodeInstruction(OpCodes.Ldarg_0);
-                yield return new CodeInstruction(OpCodes.Call, _getWorld);
-                yield return new CodeInstruction(OpCodes.Call, _isDimension);
-                yield return new CodeInstruction(OpCodes.Or);
+                // _isUserspace() || _isDimension()
+                
+                yield return instruction;                                                     // IsUserspace()
+                yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
+                yield return new CodeInstruction(OpCodes.Call, _getWorld);    // World.
+                yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
+                yield return new CodeInstruction(OpCodes.Or);                         // ||
+                continue;
+            }
+            
+            yield return instruction;
+        }
+    }
+    
+    /// <summary>
+    /// When a world is checking if we're userspace, also check if the world is a dimension
+    /// </summary>
+    [HarmonyPatch(typeof(World), nameof(World.RunWorldEvents))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> WorldAlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+        List<CodeInstruction> code = instructions.ToList();
+
+        for (int i = 0; i < code.Count; i++)
+        {
+            CodeInstruction instruction = code[i];
+
+            if (instruction.Calls(_isUserspace))
+            {
+                // _isUserspace() || _isDimension()
+                
+                yield return instruction;                                                     // IsUserspace()
+                yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
+                yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
+                yield return new CodeInstruction(OpCodes.Or);                         // ||
+                continue;
+            }
+            
+            yield return instruction;
+        }
+    }
+    
+    /// <summary>
+    /// When a method is checking if a world isn't userspace, also ensure the world isn't a dimension
+    /// </summary>
+    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> AlsoCheckForNotDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+        List<CodeInstruction> code = instructions.ToList();
+
+        for (int i = 0; i < code.Count; i++)
+        {
+            CodeInstruction instruction = code[i];
+
+            if (instruction.Calls(_isUserspace))
+            {
+                // !_isUserspace() && !_isDimension()
+                
+                yield return instruction; // IsUserspace()
+                yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
+                yield return new CodeInstruction(OpCodes.Call, _getWorld);    // World.
+                yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
+                yield return new CodeInstruction(OpCodes.Ldc_I4_0);                   // 0
+                yield return new CodeInstruction(OpCodes.Ceq);                        // ==
+                yield return new CodeInstruction(OpCodes.And);                        // &&
                 continue;
             }
             
