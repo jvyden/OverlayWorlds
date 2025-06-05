@@ -19,13 +19,49 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
     private static readonly MethodInfo _isUserspace = AccessTools.Method(typeof(WorldExtensions), nameof(WorldExtensions.IsUserspace));
     private static readonly MethodInfo _isDimension = AccessTools.Method(typeof(DimensionManager), nameof(DimensionManager.IsDimension));
     private static readonly MethodInfo _getWorld = AccessTools.Method(typeof(Worker), "get_World");
+    private static readonly MethodInfo _getUserspaceWorld = AccessTools.Method(typeof(Userspace), "get_UserspaceWorld");
+
+    [HarmonyPatch(typeof(ScreenController), nameof(ScreenController.OnAttach))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> ScreenControllerOnAttach(IEnumerable<CodeInstruction> instructions)
+        => ExtensionAlsoCheckForDimensionTranspiler(instructions);
+    
+    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> PointerInteractionControllerOnAttach(IEnumerable<CodeInstruction> instructions)
+        => ExtensionAlsoCheckForDimensionTranspiler(instructions);
+    
+    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.UpdatePointer))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> PointerInteractionControllerUpdatePointer(IEnumerable<CodeInstruction> instructions)
+        => ExtensionAlsoCheckForDimensionTranspiler(instructions);
+    
+    
+    [HarmonyPatch(typeof(OverlayLayer), nameof(OverlayLayer.CheckCanUse))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> OverlayLayerCheckCanUse(IEnumerable<CodeInstruction> instructions)
+        => EqualityAlsoCheckForDimensionTranspiler(instructions);
+    
+    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.GetTouchable))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> PointerInteractionControllerGetTouchable(IEnumerable<CodeInstruction> instructions)
+        => EqualityAlsoCheckForDimensionTranspiler(instructions);
+    
+    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.BeforeInputUpdate))]
+    [HarmonyTranspiler]
+    [HarmonyDebug]
+    private static IEnumerable<CodeInstruction> PointerInteractionControllerBeforeInputUpdate(IEnumerable<CodeInstruction> instructions)
+        => EqualityAlsoCheckForDimensionTranspiler(instructions);
 
     /// <summary>
     /// When a method is checking if a world is userspace, also check if the world is a dimension
     /// </summary>
-    [HarmonyPatch(typeof(ScreenController), nameof(ScreenController.OnAttach))]
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> AlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> ExtensionAlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         List<CodeInstruction> code = instructions.ToList();
 
@@ -50,11 +86,38 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
     }
     
     /// <summary>
+    /// When a method is checking if a world is userspace, also check if the world is a dimension
+    /// </summary>
+    private static IEnumerable<CodeInstruction> EqualityAlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+        List<CodeInstruction> code = instructions.ToList();
+
+        for (int i = 0; i < code.Count; i++)
+        {
+            CodeInstruction instruction = code[i];
+
+            if (instruction.opcode == OpCodes.Beq_S && code[i - 1].Calls(_getUserspaceWorld))
+            {
+                // this.World == Userspace.UserspaceWorld || this.World.IsDimension()
+                
+                yield return new CodeInstruction(OpCodes.Ceq);                        // ==
+                yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
+                yield return new CodeInstruction(OpCodes.Call, _getWorld);    // World.
+                yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
+                yield return new CodeInstruction(OpCodes.Or);                         // ||
+                yield return new CodeInstruction(OpCodes.Brtrue_S, instruction.operand);
+                continue;
+            }
+            
+            yield return instruction;
+        }
+    }
+    
+    /// <summary>
     /// When a world is checking if we're userspace, also check if the world is a dimension
     /// </summary>
     [HarmonyPatch(typeof(World), nameof(World.RunWorldEvents))]
     [HarmonyTranspiler]
-    [HarmonyDebug]
     private static IEnumerable<CodeInstruction> WorldAlsoCheckForDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         List<CodeInstruction> code = instructions.ToList();
@@ -71,37 +134,6 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
                 yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
                 yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
                 yield return new CodeInstruction(OpCodes.Or);                         // ||
-                continue;
-            }
-            
-            yield return instruction;
-        }
-    }
-    
-    /// <summary>
-    /// When a method is checking if a world isn't userspace, also ensure the world isn't a dimension
-    /// </summary>
-    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> AlsoCheckForNotDimensionTranspiler(IEnumerable<CodeInstruction> instructions)
-    {
-        List<CodeInstruction> code = instructions.ToList();
-
-        for (int i = 0; i < code.Count; i++)
-        {
-            CodeInstruction instruction = code[i];
-
-            if (instruction.Calls(_isUserspace))
-            {
-                // !_isUserspace() && !_isDimension()
-                
-                yield return instruction; // IsUserspace()
-                yield return new CodeInstruction(OpCodes.Ldarg_0);                    // this.
-                yield return new CodeInstruction(OpCodes.Call, _getWorld);    // World.
-                yield return new CodeInstruction(OpCodes.Call, _isDimension); // IsDimension()
-                yield return new CodeInstruction(OpCodes.Ldc_I4_0);                   // 0
-                yield return new CodeInstruction(OpCodes.Ceq);                        // ==
-                yield return new CodeInstruction(OpCodes.And);                        // &&
                 continue;
             }
             

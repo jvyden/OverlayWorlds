@@ -19,9 +19,9 @@ public static class DimensionManager
         builder.SetupServerVoice.Value = false;
         builder.SetupClientVoice.Value = false;
         builder.FillEmptySlots.Value = false;
-        
-        builder.SetupLocomotion.Value = true;
+        builder.SetupLocomotion.Value = false;
         builder.AllowLocomotion.Value = false;
+        builder.SetupItemShelves.Value = false;
         
         Slot slot = world.AddSlot("UserRoot", false);
         UserRoot userRoot = slot.AttachComponent<UserRoot>();
