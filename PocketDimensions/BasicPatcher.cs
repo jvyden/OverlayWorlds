@@ -3,12 +3,14 @@ using FrooxEngine;
 using FrooxEngine.UIX;
 using HarmonyLib;
 using MonkeyLoader.Resonite;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PocketDimensions;
 
 [HarmonyPatchCategory(nameof(BasicPatcher))]
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
 {
     // protected override IEnumerable<IFeaturePatch> GetFeaturePatches()
@@ -27,36 +29,36 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
     private static IEnumerable<CodeInstruction> ScreenControllerOnAttach(IEnumerable<CodeInstruction> instructions)
         => ExtensionAlsoCheckForDimensionTranspiler(instructions);
     
-    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
-    [HarmonyTranspiler]
-    [HarmonyDebug]
-    private static IEnumerable<CodeInstruction> PointerInteractionControllerOnAttach(IEnumerable<CodeInstruction> instructions)
-        => ExtensionAlsoCheckForDimensionTranspiler(instructions);
-    
-    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.UpdatePointer))]
-    [HarmonyTranspiler]
-    [HarmonyDebug]
-    private static IEnumerable<CodeInstruction> PointerInteractionControllerUpdatePointer(IEnumerable<CodeInstruction> instructions)
-        => ExtensionAlsoCheckForDimensionTranspiler(instructions);
-    
-    
-    [HarmonyPatch(typeof(OverlayLayer), nameof(OverlayLayer.CheckCanUse))]
-    [HarmonyTranspiler]
-    [HarmonyDebug]
-    private static IEnumerable<CodeInstruction> OverlayLayerCheckCanUse(IEnumerable<CodeInstruction> instructions)
-        => EqualityAlsoCheckForDimensionTranspiler(instructions);
-    
-    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.GetTouchable))]
-    [HarmonyTranspiler]
-    [HarmonyDebug]
-    private static IEnumerable<CodeInstruction> PointerInteractionControllerGetTouchable(IEnumerable<CodeInstruction> instructions)
-        => EqualityAlsoCheckForDimensionTranspiler(instructions);
-    
-    [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.BeforeInputUpdate))]
-    [HarmonyTranspiler]
-    [HarmonyDebug]
-    private static IEnumerable<CodeInstruction> PointerInteractionControllerBeforeInputUpdate(IEnumerable<CodeInstruction> instructions)
-        => EqualityAlsoCheckForDimensionTranspiler(instructions);
+    // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
+    // [HarmonyTranspiler]
+    // [HarmonyDebug]
+    // private static IEnumerable<CodeInstruction> PointerInteractionControllerOnAttach(IEnumerable<CodeInstruction> instructions)
+    //     => ExtensionAlsoCheckForDimensionTranspiler(instructions);
+    //
+    // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.UpdatePointer))]
+    // [HarmonyTranspiler]
+    // [HarmonyDebug]
+    // private static IEnumerable<CodeInstruction> PointerInteractionControllerUpdatePointer(IEnumerable<CodeInstruction> instructions)
+    //     => ExtensionAlsoCheckForDimensionTranspiler(instructions);
+    //
+    //
+    // [HarmonyPatch(typeof(OverlayLayer), nameof(OverlayLayer.CheckCanUse))]
+    // [HarmonyTranspiler]
+    // [HarmonyDebug]
+    // private static IEnumerable<CodeInstruction> OverlayLayerCheckCanUse(IEnumerable<CodeInstruction> instructions)
+    //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
+    //
+    // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.GetTouchable))]
+    // [HarmonyTranspiler]
+    // [HarmonyDebug]
+    // private static IEnumerable<CodeInstruction> PointerInteractionControllerGetTouchable(IEnumerable<CodeInstruction> instructions)
+    //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
+    //
+    // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.BeforeInputUpdate))]
+    // [HarmonyTranspiler]
+    // [HarmonyDebug]
+    // private static IEnumerable<CodeInstruction> PointerInteractionControllerBeforeInputUpdate(IEnumerable<CodeInstruction> instructions)
+    //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
 
     /// <summary>
     /// When a method is checking if a world is userspace, also check if the world is a dimension
@@ -140,6 +142,36 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
             yield return instruction;
         }
     }
+    
+    [HarmonyPatch(typeof(InteractionHandler), nameof(InteractionHandler.IsUserspaceLaserActive), MethodType.Getter)]
+    [HarmonyPrefix]
+    public static bool InteractionHandlerIsUserspaceLaserActive(InteractionHandler __instance, ref bool __result)
+    {
+        if (DimensionManager.IsDimension(__instance.World))
+            return true;
+
+        // it's intentional that we use HasHitTarget here
+        // seems to behave better when tools are equipped in the dimension
+        if (!DimensionManager.HasDimensionLaserHitTarget(__instance.Side))
+            return true;
+            
+        __result = true;
+        return false;
+    }
+
+    [HarmonyPatch(typeof(InteractionHandler), nameof(InteractionHandler.HasUserspaceLaserHitTarget), MethodType.Getter)]
+    [HarmonyPrefix]
+    public static bool InteractionHandlerHasUserspaceLaserHitTarget(InteractionHandler __instance, ref bool __result)
+    {
+        if (DimensionManager.IsDimension(__instance.World))
+            return true;
+
+        if (!DimensionManager.HasDimensionLaserHitTarget(__instance.Side))
+            return true;
+            
+        __result = true;
+        return false;
+    }
 
     // I'd love to patch OnStart here but that doesn't exist on Button
     [HarmonyPatch(typeof(Button), nameof(Button.OnAwake))]
@@ -151,7 +183,7 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
             return;
         #endif
 
-        __instance.World.RunInUpdates(1, () => SetupButton(__instance));
+        __instance.World.RunInUpdates(0, () => SetupButton(__instance));
     }
 
     private static void SetupButton(Button button)

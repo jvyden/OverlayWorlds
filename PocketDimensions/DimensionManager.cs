@@ -12,6 +12,8 @@ namespace PocketDimensions;
 public static class DimensionManager
 {
     private static World? _world;
+    private static InteractionHandler _leftHandler;
+    private static InteractionHandler _rightHandler;
     
     private static void SetupWorld(World world)
     {
@@ -82,6 +84,14 @@ public static class DimensionManager
 
                 inspector.PositionInFrontOfUser(float3.Backward, float3.Forward * 2);
             });
+            
+            await new NextUpdate();
+            w.RunSynchronously(() =>
+            {
+                Slot userRoot = w.LocalUser.Root.Slot;
+                _leftHandler = userRoot.FindChild("LeftController").GetComponentInChildren<InteractionHandler>();
+                _rightHandler = userRoot.FindChild("RightController").GetComponentInChildren<InteractionHandler>();
+            });
         }, world));
 
         Engine.Current.WorldManager.OverlayWorld(world);
@@ -125,5 +135,33 @@ public static class DimensionManager
         }
 
         return true;
+    }
+
+    private static InteractionHandler Handler(Chirality side)
+    {
+        return side switch
+        {
+            Chirality.Left => _leftHandler,
+            Chirality.Right => _rightHandler,
+            _ => throw new ArgumentOutOfRangeException(nameof(side), side, null)
+        };
+    }
+    
+    public static bool IsDimensionLaserActive(Chirality side)
+    {
+        if (_world == null)
+            return false;
+        
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        return Handler(side).Laser.LaserActive;
+    }
+
+    public static bool HasDimensionLaserHitTarget(Chirality side)
+    {
+        if (_world == null)
+            return false;
+        
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        return Handler(side).Laser.CurrentHit != null;
     }
 }
