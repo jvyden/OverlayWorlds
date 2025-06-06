@@ -12,8 +12,8 @@ namespace PocketDimensions;
 public static class DimensionManager
 {
     private static World? _world;
-    private static InteractionHandler _leftHandler;
-    private static InteractionHandler _rightHandler;
+    private static InteractionHandler? _leftHandler;
+    private static InteractionHandler? _rightHandler;
     
     private static void SetupWorld(World world)
     {
@@ -23,7 +23,10 @@ public static class DimensionManager
         builder.FillEmptySlots.Value = false;
         builder.SetupLocomotion.Value = false;
         builder.AllowLocomotion.Value = false;
-        builder.SetupItemShelves.Value = false;
+        builder.SetupNameBadges.Value = false;
+        builder.SetupIconBadges.Value = false;
+
+        builder.SetupItemShelves.Value = Engine.Current.SystemInfo.HeadDevice.IsVR();
         
         Slot slot = world.AddSlot("UserRoot", false);
         UserRoot userRoot = slot.AttachComponent<UserRoot>();
@@ -38,6 +41,11 @@ public static class DimensionManager
             handler.EquippingEnabled.Value = false;
             handler.UserScalingEnabled.Value = false;
             handler.VisualEnabled.Value = false;
+
+            if (handler.Side == Chirality.Left)
+                _leftHandler = handler;
+            else if (handler.Side == Chirality.Right)
+                _rightHandler = handler;
         }
 
         AvatarManager manager = slot.AttachComponent<AvatarManager>();
@@ -84,14 +92,6 @@ public static class DimensionManager
 
                 inspector.PositionInFrontOfUser(float3.Backward, float3.Forward * 2);
             });
-            
-            await new NextUpdate();
-            w.RunSynchronously(() =>
-            {
-                Slot userRoot = w.LocalUser.Root.Slot;
-                _leftHandler = userRoot.FindChild("LeftController").GetComponentInChildren<InteractionHandler>();
-                _rightHandler = userRoot.FindChild("RightController").GetComponentInChildren<InteractionHandler>();
-            });
         }, world));
 
         Engine.Current.WorldManager.OverlayWorld(world);
@@ -99,7 +99,13 @@ public static class DimensionManager
         _world = world;
     }
     
-    public static bool IsDimension(World w) => _world == w;
+    public static bool IsDimension(World w)
+    {
+        if (_world == null)
+            return false;
+
+        return _world == w;
+    }
 
     /// <summary>
     /// Stops the pocket dimension.
@@ -112,11 +118,19 @@ public static class DimensionManager
 
         if (_world.IsDisposed)
         {
-            _world = null;
+            ClearWorldReferences();
             return;
         }
 
         await Userspace.ExitWorld(_world);
+        ClearWorldReferences();
+    }
+    
+    private static void ClearWorldReferences()
+    {
+        _world = null;
+        _leftHandler = null;
+        _rightHandler = null;
     }
 
     public static bool RegisterButton(Button button, string method)
@@ -137,7 +151,7 @@ public static class DimensionManager
         return true;
     }
 
-    private static InteractionHandler Handler(Chirality side)
+    private static InteractionHandler? Handler(Chirality side)
     {
         return side switch
         {
@@ -153,7 +167,7 @@ public static class DimensionManager
             return false;
         
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        return Handler(side).Laser.LaserActive;
+        return Handler(side)?.Laser.LaserActive ?? false;
     }
 
     public static bool HasDimensionLaserHitTarget(Chirality side)
@@ -162,6 +176,6 @@ public static class DimensionManager
             return false;
         
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        return Handler(side).Laser.CurrentHit != null;
+        return Handler(side)?.Laser.CurrentHit != null;
     }
 }

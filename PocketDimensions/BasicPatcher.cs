@@ -25,38 +25,32 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
 
     [HarmonyPatch(typeof(ScreenController), nameof(ScreenController.OnAttach))]
     [HarmonyTranspiler]
-    [HarmonyDebug]
     private static IEnumerable<CodeInstruction> ScreenControllerOnAttach(IEnumerable<CodeInstruction> instructions)
         => ExtensionAlsoCheckForDimensionTranspiler(instructions);
     
     // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.OnAttach))]
     // [HarmonyTranspiler]
-    // [HarmonyDebug]
     // private static IEnumerable<CodeInstruction> PointerInteractionControllerOnAttach(IEnumerable<CodeInstruction> instructions)
     //     => ExtensionAlsoCheckForDimensionTranspiler(instructions);
     //
     // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.UpdatePointer))]
     // [HarmonyTranspiler]
-    // [HarmonyDebug]
     // private static IEnumerable<CodeInstruction> PointerInteractionControllerUpdatePointer(IEnumerable<CodeInstruction> instructions)
     //     => ExtensionAlsoCheckForDimensionTranspiler(instructions);
     //
     //
     // [HarmonyPatch(typeof(OverlayLayer), nameof(OverlayLayer.CheckCanUse))]
     // [HarmonyTranspiler]
-    // [HarmonyDebug]
     // private static IEnumerable<CodeInstruction> OverlayLayerCheckCanUse(IEnumerable<CodeInstruction> instructions)
     //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
     //
     // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.GetTouchable))]
     // [HarmonyTranspiler]
-    // [HarmonyDebug]
     // private static IEnumerable<CodeInstruction> PointerInteractionControllerGetTouchable(IEnumerable<CodeInstruction> instructions)
     //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
     //
     // [HarmonyPatch(typeof(PointerInteractionController), nameof(PointerInteractionController.BeforeInputUpdate))]
     // [HarmonyTranspiler]
-    // [HarmonyDebug]
     // private static IEnumerable<CodeInstruction> PointerInteractionControllerBeforeInputUpdate(IEnumerable<CodeInstruction> instructions)
     //     => EqualityAlsoCheckForDimensionTranspiler(instructions);
 
@@ -150,9 +144,7 @@ internal class BasicPatcher : ResoniteMonkey<BasicPatcher>
         if (DimensionManager.IsDimension(__instance.World))
             return true;
 
-        // it's intentional that we use HasHitTarget here
-        // seems to behave better when tools are equipped in the dimension
-        if (!DimensionManager.HasDimensionLaserHitTarget(__instance.Side))
+        if (!DimensionManager.IsDimensionLaserActive(__instance.Side))
             return true;
             
         __result = true;
